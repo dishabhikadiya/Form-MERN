@@ -1,0 +1,21 @@
+.input1 {
+  margin: 20px;
+  width: 500px;
+  display: flex;
+  align-items: center;
+}
+.redioButton {
+  margin-left: 70px;
+}
+.datePiker {
+  margin: 20px;
+  width: 500px;
+  align-items: center;
+}
+.button1{
+    margin: 10px;
+    width: 100px;
+}
+.imag{
+  width :200px;
+}
