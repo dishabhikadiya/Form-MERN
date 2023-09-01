@@ -5,7 +5,6 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import axios from "axios";
-import BadgeIcon from "@mui/icons-material/Badge";
 import PhoneIcon from "@mui/icons-material/Phone";
 import EmailIcon from "@mui/icons-material/Email";
 import PlaceIcon from "@mui/icons-material/Place";
@@ -14,25 +13,30 @@ import PersonIcon from "@mui/icons-material/Person";
 import NumbersIcon from "@mui/icons-material/Numbers";
 import EmojiEmotionsIcon from "@mui/icons-material/EmojiEmotions";
 import CreditScoreIcon from "@mui/icons-material/CreditScore";
+import Button from "@mui/material/Button";
+import { useNavigate } from "react-router-dom";
+// import Avatar from "@mui/material/Avatar";
+// import Stack from "@mui/material/Stack";
 const Details = () => {
   const [forms, setForms] = useState([]);
+  const navigate = useNavigate();
+  const navigateToAbout = () => {
+    navigate("/");
+  };
   useEffect(() => {
-    async function fetchForms() {
-      try {
-        const response = await axios.get(
-          "http://localhost:4000/api/getAllData"
-        );
-        setForms(response?.data);
-      } catch (error) {
-        console.error("Error fetching forms:", error);
-      }
-    }
-
     fetchForms();
   }, []);
-
+  const fetchForms = async () => {
+    try {
+      const response = await axios.get("http://localhost:3000/api/getAllData");
+      setForms(response?.data);
+    } catch (error) {
+      console.error("Error fetching forms:", error);
+    }
+  };
   return (
     <div>
+      {/* <img src="https://picsum.photos/200/300"></img> */}
       {forms.map((form) => (
         <Accordion key={form._id}>
           <AccordionSummary
@@ -41,7 +45,11 @@ const Details = () => {
             id="panel1a-header"
           >
             <Typography>
-              <BadgeIcon sx={{ marginBottom: -1 }} />
+              {/* <Stack direction="row" spacing={3} sx={{ marginBottom: 2 }}>
+                <Avatar alt="Remy Sharp" src={form?.images} />
+                {console.log(form.images)}
+              </Stack> */}
+              {/* <img src={form.images} height="100px" width="100px"></img> */}
               &nbsp;
               {form?.firstName}&nbsp;
               {form?.lastName}
@@ -64,10 +72,11 @@ const Details = () => {
                 </ul>
                 <hr />
                 <div className="aaaaa">
+                  {/* {console.log("image on board :", form?.images)}
                   <ul>
-                    <img src={form?.images} alt={form?.firstName} />
+                    <img src={form?.images} alt="img" />
                     {console.log("image==", form.images)}
-                  </ul>
+                  </ul> */}
                   <div className="details">
                     <p>
                       <CreditScoreIcon sx={{ marginBottom: -1 }} />: &nbsp;
@@ -107,6 +116,16 @@ const Details = () => {
           </AccordionDetails>
         </Accordion>
       ))}
+      {/* } */}
+      <br />
+      <Button
+        variant="contained"
+        type="submit"
+        className="button2"
+        onClick={navigateToAbout}
+      >
+        Create Form
+      </Button>
     </div>
   );
 };

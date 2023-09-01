@@ -9,6 +9,10 @@ exports.createForm = catchAsyncErrors(async (req, res) => {
   try {
     console.log("file", req.file.filename);
     console.log("req.body", req.body);
+    let imagePath = `${imagepath}/${req.file.filename}`;
+    console.log("imagePath", imagePath);
+    console.log("imagepath", imagepath);
+    console.log("req.file.filename", req.file.filename);
     const {
       firstName,
       lastName,
@@ -19,13 +23,11 @@ exports.createForm = catchAsyncErrors(async (req, res) => {
       gender,
       state,
       age,
-      images,
       address,
       city,
       pinCode,
       country,
     } = req.body;
-    let imagePath = `${imagepath}/${req.file.filename}`;
     const newForm = new Form({
       firstName,
       lastName,
@@ -36,7 +38,6 @@ exports.createForm = catchAsyncErrors(async (req, res) => {
       gender,
       state,
       age,
-      images,
       address,
       city,
       pinCode,
