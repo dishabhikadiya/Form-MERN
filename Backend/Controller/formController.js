@@ -12,7 +12,7 @@ exports.createForm = catchAsyncErrors(async (req, res) => {
     let imagePath = `${imagepath}/${req.file.filename}`;
     console.log("imagePath", imagePath);
     console.log("imagepath", imagepath);
-    console.log("req.file.filename", req.file.filename);
+    console.log("req.file.filenamess", req.file.filename);
     const {
       firstName,
       lastName,

@@ -5,14 +5,14 @@ const formSchema = new mongoose.Schema(
   {
     firstName: {
       type: String,
-      // required: true,
+      required: true,
       unique: true,
       // minlength: [3, "Name must be at least 3 characters"],
       // maxlength: [10, "Name cannot exceed 10 characters"],
     },
     lastName: {
       type: String,
-      // required: true,
+      required: true,
       unique: true,
       // minlength: [5, "Name must be at least 3 characters"],
       // maxlength: [15, "Name cannot exceed 10 characters"],
@@ -25,7 +25,7 @@ const formSchema = new mongoose.Schema(
     },
     phone: {
       type: String,
-      // required: true,
+      required: true,
       // unique: true,
       // validate: {
       //   validator: function (value) {
@@ -42,14 +42,14 @@ const formSchema = new mongoose.Schema(
     hobbies: {
       type: String,
       // required: [true, "Pleace Enter Hobby"],
-      // enum: ["traveling", "reading", "cooking"],s
+      // enum: ["traveling", "reading", "cooking"],
     },
     dateOfBirth: {
       // required: [true, "Pleace Enter Your DateofBirth"],
       type: Number,
     },
     images: {
-      // required: [true, "Pleace Enter Your Profile"],
+      // required: [true, "Pleace Enter Your Profile"],s
       type: String,
     },
     age: {
@@ -76,7 +76,7 @@ const formSchema = new mongoose.Schema(
     },
     address: {
       type: String,
-      // required: [true, "Pleace Enter Your Addresss"],
+      required: [true, "Pleace Enter Your Addresss"],
     },
   },
   { timestamps: true }

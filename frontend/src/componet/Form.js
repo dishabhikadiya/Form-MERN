@@ -16,7 +16,6 @@ import Button from "@mui/material/Button";
 import Checkbox from "@mui/material/Checkbox";
 import { DropzoneArea } from "mui-file-dropzone";
 import { useNavigate } from "react-router-dom";
-
 const NewForm = () => {
   const [value, setValue] = useState("+91");
   const [selectedCountry, setSelectedCountry] = useState({ country: "" });
@@ -24,6 +23,8 @@ const NewForm = () => {
   const [selectedCity, setSelectedCity] = useState({ city: "" });
   const [selectedHobbies, setSelectedHobbies] = useState([]);
   const [imageUrl, setImageUrl] = useState([""]);
+  const [emailError, setEmailError] = useState("");
+
   const navigate = useNavigate();
 
   const timeStampConvertor = (dateString) => {
@@ -31,6 +32,10 @@ const NewForm = () => {
     const timestamp = dateOfBirth.getTime();
     return timestamp;
   };
+  // const showAlert = () => {
+  //   alert("Thank you for your submission!");
+  //   window.alert("This is an alert message!");
+  // };
   const [myData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -50,7 +55,6 @@ const NewForm = () => {
   const handleFileChange = (files) => {
     setImageUrl(files[0]);
     console.log("img", files[0]);
-    // console.log(setImageUrl);
   };
 
   const handleInputChange = (event) => {
@@ -60,8 +64,15 @@ const NewForm = () => {
       ...prevData,
       [name]: value,
     }));
+    if (name === "email") {
+      const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      if (!emailPattern.test(value)) {
+        setEmailError("Invalid email address");
+      } else {
+        setEmailError("");
+      }
+    }
   };
-
   const hobbiesList = [
     { id: 1, label: "cooking", name: "hobbies", value: "cooking" },
     { id: 2, label: "reading", name: "hobbies", value: "reading" },
@@ -77,6 +88,7 @@ const NewForm = () => {
       setSelectedHobbies([...selectedHobbies, value]);
     }
   };
+
   const resetForm = () => {
     setFormData({
       firstName: "",
@@ -97,6 +109,7 @@ const NewForm = () => {
     setSelectedHobbies([]);
     setImageUrl([]);
   };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData();
@@ -138,6 +151,36 @@ const NewForm = () => {
     } catch (error) {
       console.error("Error:", error);
     }
+    if (!imageUrl) {
+      alert("Please select an image.");
+      return;
+    }
+    if (!selectedCountry || !selectedCountry.name) {
+      alert("Please select a country.");
+      return;
+    }
+
+    if (!selectedState || !selectedState.name) {
+      alert("Please select a state.");
+      return;
+    }
+
+    if (!selectedCity || !selectedCity.name) {
+      alert("Please select a city.");
+      return;
+    }
+    if (selectedHobbies.length === 0) {
+      alert("Please select at least one hobby.");
+      return;
+    }
+    if (!myData.dateOfBirth) {
+      alert("Please select a date of birth");
+      return;
+    }
+    // if (!value.phone) {
+    //   alert("Please enter the phone number.");
+    //   return;
+    // }
   };
   useEffect(() => {
     // console.log(selectedCountry);
@@ -197,13 +240,20 @@ const NewForm = () => {
             name="gender"
             value={myData?.gender}
             onChange={handleInputChange}
+            required
           >
             <FormControlLabel
               value="female"
               control={<Radio />}
               label="Female"
+              required
             />
-            <FormControlLabel value="male" control={<Radio />} label="Male" />
+            <FormControlLabel
+              value="male"
+              control={<Radio />}
+              label="Male"
+              required
+            />
           </RadioGroup>
         </div>
         <div className="datePiker">
@@ -211,6 +261,7 @@ const NewForm = () => {
           Date Of Bith:&nbsp;&nbsp;
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker
+              disableFuture
               value={myData?.dateOfBirth}
               onChange={(e) => {
                 const temp = { ...myData };
@@ -232,6 +283,8 @@ const NewForm = () => {
             autoFocus
             value={myData?.email}
             onChange={handleInputChange}
+            error={!!emailError}
+            helperText={emailError}
           />
         </div>
         <div className="datePiker">
@@ -239,17 +292,20 @@ const NewForm = () => {
           <TextField
             label="Age"
             name="age"
+            // type="number"
             value={myData?.age}
             onChange={handleInputChange}
             inputProps={{
               maxLength: 2,
             }}
+            required
           />
         </div>
         <div className="datePiker">
           Phone: &nbsp;&nbsp;
           <MuiTelInput
             value={value}
+            required
             onChange={handleChange}
             inputProps={{
               maxLength: 16,
@@ -278,6 +334,7 @@ const NewForm = () => {
             label="PIN Code"
             variant="outlined"
             type="number"
+            required
             InputProps={{
               inputProps: {
                 pattern: "[0-9]*",
